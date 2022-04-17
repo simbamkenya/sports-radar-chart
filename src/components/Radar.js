@@ -27,10 +27,11 @@ function Radar() {
 
         const margin = { top: 10, right: 10, bottom: 10, left: 10 },
             width = 760 - margin.left - margin.right,
-            height = 250 - margin.top - margin.bottom;
+            height = 450 - margin.top - margin.bottom;
           
-        const radius = 110;
-        const levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110];
+        const radius = 200;
+        // const levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110];
+        const ticks = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
         
         var svg = select(containerRef.current)
           .append('svg')
@@ -45,41 +46,64 @@ function Radar() {
         const attributes = Object.keys(data[0])
         //radial scale
         const radAxis = scaleLinear()
-          .domain([10, 110])
-          .range([0, 110])
+          .domain([0.1, 1.0])
+          .range([0, 200])
+
+          const rad = scaleLinear()
+          .domain([0.1, 10])
+          .range([0, 200])
           // console.log(radAxis.domain())
 
         const angleToDeg = (angle) => {
-          return angle * 180 / Math.PI
+          return angle * (180 / Math.PI)
         }
-        const cordForAngle = (angle, offset=1) => {
+        const cordForAngle = (angle, len) => {
           return [
-            Math.cos(angle) * radius,
-            Math.sin(angle) * radius
+            Math.cos(angle) * len,
+            Math.sin(angle) * len
           ]
         }
         
         //round axis
-       attributes.forEach((el, i) => {
-         const slice = Math.PI * 2 / attributes.length
-         const angles = angleToDeg(slice * (i + 1)) 
-         console.log('slice', slice)
+        for (var i = 0; i < attributes.length; i++) {
+          const slice = (Math.PI / 2) + (2 * Math.PI * i / attributes.length)
+          // const angles = angleToDeg(slice) 
+          console.log('slice', slice)
+          const key = attributes[i]
+          console.log('ll')
+          
+          //axis values
+          const [x, y] = cordForAngle(slice, radius)
 
-         const [x, y] = cordForAngle(angles)
+          //attributes values
+          const [xValue, yValue ] = cordForAngle(slice, radius + 20)
+ 
+         svg.append('line')
+          .attr('x2', x+ width /2)
+          .attr('y2',y + height/2)
+          .attr('x1', width/2)
+          .attr('y1', height/2)
+         //  .attr('transform', `rotate(${angles})`)
+          .attr('stroke', 'black')
+          .attr('stroke-width', 1.5)
 
-        svg.append('line')
-         .attr('x2', x+ width /2)
-         .attr('y2',y +height/2)
-         .attr('x1', width/2)
-         .attr('y1', height/2)
-        //  .attr('transform', `rotate(${angles})`)
-         .attr('stroke', 'black')
-         .attr('stroke-width', 1.5)
-
+          svg.append('text')
+          .attr('x', xValue + width/2)
+          .attr('y', yValue + height/2)
+          .text(key)
+        }
+        
        
-       })
+      ticks.forEach(el => {
+        svg.append('text')
+        .attr('x', width/2)
+        .attr('y', height/2 - radAxis(el) - 0.85)
+        .text(el)
+        .attr('fill', 'none')
+        .attr('stroke', 'red')
+      })
 
-       levels.forEach(el => {
+       ticks.forEach(el => {
         
         svg.append('circle')
           .attr('cx', width/2)
@@ -98,9 +122,6 @@ function Radar() {
 
   return (
     <div ref={containerRef} >
-      {/* <svg>
-      <circle cx="50" cy="50" r="40" stroke="black" stroke-width="3" fill="red" />
-      </svg> */}
     </div>
   )
 }
