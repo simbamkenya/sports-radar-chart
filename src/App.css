@@ -1,7 +1,10 @@
 svg{
-  background-color: #B3C5D7;
+  /* background-color: #B3C5D7; */
 }
 
 body{
   background-color:  #D1B490;
+}
+.areapath:hover{
+  opacity: 1.0;
 }

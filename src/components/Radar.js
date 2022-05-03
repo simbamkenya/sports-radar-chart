@@ -20,10 +20,13 @@ function Radar() {
 ]
 
     const [data, setData] = useState(dat)
+    const [player, setPlayer] = useState()
     const containerRef = useRef(null)
   const margin = { top: 10, right: 10, bottom: 10, left: 10 },
             width = 760 - margin.left - margin.right,
             height = 450 - margin.top - margin.bottom;
+
+    
           
     useEffect(() => {
         // json('data.json').then(data => setData(data))
@@ -94,6 +97,12 @@ function Radar() {
           .attr('x', x + width/2)
           .attr('y', y + height/2)
           .text(key)
+          .style('text-anchor', d => (i === 0 ? 'end': i === 1 ? 'end': i=== 2 ? 'end' : null))
+          // .style('text-anchor', d => (i === 1 ? 'end': i<2 ? 'end' : i <=3 ))
+          // x<13 ? "Child" : x<20 ? "Teenage" : x<30 ? "Twenties" : "Old people"
+          // .attr('dy', "0.3em")
+          .attr('fill', 'white')
+          .attr('class', '')
         }
         
        
@@ -105,8 +114,9 @@ function Radar() {
         .text(el)
         .attr('fill', 'none')
         .attr('stroke', 'red')
-        // .style('text-anchor', d => (el >= 0.5 && el < 2 * 0.7 ? 'end' : null))
+        // 
         .style('text-anchor', 'end')
+
         console.log('ele', el)
       })
 
@@ -116,7 +126,7 @@ function Radar() {
           .attr('cx', width/2)
           .attr('cy', height/2)
           .attr('fill', 'none')
-          .attr('stroke', 'green')
+          .attr('stroke', 'gray')
           .attr('stroke-width', 1.5)
           .attr('r', radAxis(el))
        })
@@ -145,17 +155,49 @@ function Radar() {
 
         svg.append('path')
         .datum(cord)
-        .attr('class', 'test')
+        .attr('class', 'areapath')
         .attr("d",lineGen)
-        .attr("stroke-width",3)
+        .attr("stroke-width",1.5)
         .attr("stroke", 'pink')
-        .attr("fill", 'gray')
+        .attr("fill", () => i === 0 ? '#FFC4DD': '#B4FF9F')
         .attr("stroke-opacity", 1)
         .attr("opacity", 0.5)
-        .attr('transform', `translate(${width/2}, ${height/2})`);
-              
+        .attr('transform', `translate(${width/2}, ${height/2})`)
+        .on('mouseenter', (e, d) => console.log(d));
+              // console.log(d)
         }
-        console.log(finalPath)
+        svg.append("circle")
+        .attr("cx",width/2 + 250)
+        .attr("cy", height/2 + 150)
+        .attr("r", 10)
+        .style("fill", "#FFC4DD")
+        svg.append("circle")
+        .attr("cx", width/2 + 250)
+        .attr("cy", height/2 + 180)
+        .attr("r", 10)
+        .style("fill", "#B4FF9F")
+
+        svg.append('text')
+        .attr('y', height/2 + 150)
+        .attr('x', width/2 + 280)
+        .html('Messi')
+        .style('stroke', 'white')
+        svg.append('text')
+        .attr('y', height/2 + 185)
+        .attr('x', width/2 + 280)
+        .html('Cristiano')
+        .style('stroke', 'white')
+
+
+
+        // svg.selectAll('rect')
+        //   .data([])
+        //   .append('rect')
+        //   .attr('x', 10)
+        //   .attr('y', )
+        //   .attr()
+        console.log(player)
+
 
     },[data])
    
@@ -163,7 +205,7 @@ function Radar() {
 
 
   return (
-    <svg viewBox={`0 0 ${width} ${height}`} ref={containerRef} >
+    <svg  viewBox={`0 0 ${width} ${height}`} ref={containerRef} >
     </svg>
   )
 }
