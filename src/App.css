@@ -3,7 +3,8 @@ svg{
 }
 
 body{
-  background-color:  #D1B490;
+  /* background-color:  #D1B490; */
+  background-color:  rgb(28, 83, 83);
 }
 .areapath:hover{
   opacity: 1.0;
