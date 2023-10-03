@@ -7,5 +7,5 @@ body{
   background-color:  rgb(28, 83, 83);
 }
 .areapath:hover{
-  opacity: 1.0;
+  opacity: 0.5;
 }
