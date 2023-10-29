@@ -7,9 +7,9 @@ function App() {
     <div className="bg-[#333C4C]">
       
        <div className='flex justify-center min-h-screen text-white'>
-        <div className='flex w-full'>
+        <div className='md:flex w-full'>
 
-          <div className='w-2/5 bg-gray-700 flex items-center'>
+          <div className='w-0 md:w-2/5 bg-gray-700 flex items-center'>
             <div className='border max-w-md ml-20 flex flex-col gap-4 p-4 rounded-sm'>
             <h2 className='font-medium leading-tight text-2xl mt-0 mb-2 text-blue-60 text-left'>Messi vs CR7 Spider Radar Chart</h2>
             <h1>Players Attributes Vis</h1>
@@ -64,7 +64,7 @@ function App() {
             
             
           </div>
-          <div className='w-3/5 flex items-center justify-center'>              
+          <div className='md:w-3/5 flex items-center justify-center'>              
            <Radar />
           </div>
 
